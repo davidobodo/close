@@ -80,3 +80,7 @@
 .List__item--silver {
 	background-color: #dddddd;
 }
+
+.highlight {
+	border: 4px solid red;
+}
