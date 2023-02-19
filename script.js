@@ -1,4 +1,4 @@
-const { Fragment, useState } = React;
+const { Fragment, useState, memo, useCallback } = React;
 
 // Implement a feature to allow item selection with the following requirements:
 // 1. Clicking an item selects/unselects it.
@@ -14,6 +14,7 @@ const List = ({ items }) => {
 
 	const onClick = (e) => {
 		const value = e.target.dataset.val;
+		if (!value) return;
 
 		const isPresent = selected.find((item) => item === value);
 		if (isPresent) {
@@ -25,16 +26,22 @@ const List = ({ items }) => {
 
 	return (
 		<Fragment>
-			<ul className="List">
+			<ul className="List" onClick={onClick}>
 				{items.map((item) => (
-					<li key={item.name} className={`List__item List__item--${item.color}`} data-val={item.name} onClick={onClick}>
-						{item.name}
-					</li>
+					<ListItem name={item.name} color={item.color} />
 				))}
 			</ul>
 		</Fragment>
 	);
 };
+
+const ListItem = memo(({ name, color }) => {
+	return (
+		<li key={name} className={`List__item List__item--${color}`} data-val={name}>
+			{name}
+		</li>
+	);
+});
 
 // ---------------------------------------
 // Do NOT change anything below this line.
