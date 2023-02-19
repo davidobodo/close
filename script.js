@@ -1,7 +1,4 @@
-console.log("HERE");
-const { Fragment } = React;
-
-console.log(Fragment, "teh freagmnt");
+const { Fragment, useState } = React;
 
 // Implement a feature to allow item selection with the following requirements:
 // 1. Clicking an item selects/unselects it.
@@ -12,17 +9,32 @@ console.log(Fragment, "teh freagmnt");
 //
 // Feel free to change the component structure at will.
 
-const List = ({ items }) => (
-	<Fragment>
-		<ul className="List">
-			{items.map((item) => (
-				<li key={item.name} className={`List__item List__item--${item.color}`}>
-					{item.name}
-				</li>
-			))}
-		</ul>
-	</Fragment>
-);
+const List = ({ items }) => {
+	const [selected, setSelected] = useState([]);
+
+	const onClick = (e) => {
+		const value = e.target.dataset.val;
+
+		const isPresent = selected.find((item) => item === value);
+		if (isPresent) {
+			setSelected(selected.filter((item) => item !== value));
+		} else {
+			setSelected([...selected, value]);
+		}
+	};
+
+	return (
+		<Fragment>
+			<ul className="List">
+				{items.map((item) => (
+					<li key={item.name} className={`List__item List__item--${item.color}`} data-val={item.name} onClick={onClick}>
+						{item.name}
+					</li>
+				))}
+			</ul>
+		</Fragment>
+	);
+};
 
 // ---------------------------------------
 // Do NOT change anything below this line.
