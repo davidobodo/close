@@ -2,10 +2,10 @@ const { Fragment, useState, memo } = React;
 
 // Implement a feature to allow item selection with the following requirements:
 // 1. Clicking an item selects/unselects it. === DONE
-// 2. Multiple items can be selected at a time.
-// 3. Make sure to avoid unnecessary re-renders of each list item in the big list (performance). === DONE
-// 4. Currently selected items should be visually highlighted.
-// 5. Currently selected items' names should be shown at the top of the page.
+// 2. Multiple items can be selected at a time. === DONE
+// 3. Make sure to avoid unnecessary re-renders of each list item in the big list (performance). ===DONE
+// 4. Currently selected items should be visually highlighted. ===DONE
+// 5. Currently selected items' names should be shown at the top of the page. ===DONE
 //
 // Feel free to change the component structure at will.
 
@@ -26,23 +26,38 @@ const List = ({ items }) => {
 
 	return (
 		<Fragment>
-			<div>
-				{selected.map((item) => (
-					<div key={item}>{item}</div>
-				))}
-			</div>
-			<ul className="List" onClick={onClick}>
-				{items.map((item) => (
-					<ListItem name={item.name} color={item.color} isSelected={selected.includes(item.name)} />
-				))}
-			</ul>
+			{selected.length > 0 ? (
+				<section className="Selected">
+					<h2>Selected Options</h2>
+					<ul className="Selected__list">
+						{selected.map((item, i) => (
+							<div key={item}>
+								{i + 1}. {item}
+							</div>
+						))}
+					</ul>
+				</section>
+			) : null}
+
+			<section>
+				<h2>All Options</h2>
+				<ul className="List" draggable={true} onClick={onClick} onDragOver={() => console.log("HEERE")}>
+					{items.map((item) => (
+						<ListItem key={item.name} name={item.name} color={item.color} isSelected={selected.includes(item.name)} />
+					))}
+				</ul>
+			</section>
 		</Fragment>
 	);
 };
 
 const ListItem = memo(({ name, color, isSelected }) => {
 	return (
-		<li key={name} className={`List__item List__item--${color} ${isSelected ? "highlight" : ""}`} data-val={name}>
+		<li
+			key={name}
+			className={`List__item List__item--${color} ${isSelected ? `Invert__item Invert__item--${color}` : ""}`}
+			data-val={name}
+		>
 			{name}
 		</li>
 	);
