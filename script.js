@@ -41,7 +41,7 @@ const List = ({ items }) => {
 
 			<section>
 				<h2>All Options</h2>
-				<ul className="List" draggable={true} onClick={onClick} onDragOver={() => console.log("HEERE")}>
+				<ul className="List" onClick={onClick}>
 					{items.map((item) => (
 						<ListItem key={item.name} name={item.name} color={item.color} isSelected={selected.includes(item.name)} />
 					))}
